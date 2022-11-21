@@ -1,0 +1,23 @@
+@import 'core/variables';
+@import 'core/reset';
+@import 'core/functions';
+@import 'core/mixins';
+@import 'core/javascript';
+@import 'components/code';
+@import 'components/links';
+@import 'layout/mainpage';
+@import 'layout/header-landing';
+@import 'layout/main-landing';
+@import 'layout/preview';
+@import 'layout/footer';
+@import 'layout/header-cards';
+@import 'layout/main-cards';
+@import 'layout/fill-cards';
+@import 'layout/design-cards';
+@import 'layout/share-cards';
+.collapsed {
+  display: none;
+}
+.flip{
+transform: rotate(180deg);
+}

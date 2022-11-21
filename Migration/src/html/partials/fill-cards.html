@@ -1,0 +1,44 @@
+<fieldset class="fill">
+    <div class="fill__head js-fill-head">
+        <div class="fill__head__intro">
+            <i class="fa-solid fa-keyboard box--element fill__head__intro__icon"></i>
+            <legend class="fill__head__intro__title"> Rellena
+            </legend>
+        </div>
+        <!--Disappears when the menu is toggled-->
+        <i class="fa-solid fa-angle-up fill__head__arrow js-fill-arrow-up"></i>
+        <i class="fa-solid fa-angle-down fill__head__arrow js-fill-arrow-down collapsed"></i>
+    </div>
+
+    <!--Disappears when the menu is toggled-->
+    <div class="fill__div js-fill-big-box collapsed">
+        <label class="fill__div__label" for="name" id="name">Nombre completo</label>
+        <input class="fill__div__input js-input-name" type="text" name="name" id="name" placeholder="Ej: Minion Stuart"
+            required>
+        <label class="fill__div__label" for="job" id="job">Puesto </label>
+        <input class="fill__div__input js-input-job" type="text" name="job" id="job" placeholder="Ej: Despicable villain"
+            required>
+        <label class="fill__div__label" for="text">Imagen de perfil</label>
+        <!--orange button-->
+        <div class="fill__div__boxes">
+            <label class="fill__div__boxes__orange" for="img-selector">Añadir imagen</label>
+            <input type="file" name="photo" id="img-selector" class="action__hiddenField  js__profile-upload-btn">
+            <!--white box-->
+            <div class="fill__div__boxes__empty profile__preview js__profile-preview js-input-box">
+            </div>
+        </div>
+
+        <label class="fill__div__label" for="email" id="email">Email</label>
+        <input class="fill__div__input js-input-email" type="email" name="email" id="email"
+            placeholder="Ej: minion-stuart@gmail.com" required>
+        <label class="fill__div__label" for="phone" id="phone">Teléfono</label>
+        <input class="fill__div__input js-input-phone" type="tel" name="phone" id="phone"
+            placeholder="Ej: 555-55-55-55">
+        <label class="fill__div__label" for="linkedin" id="linkedin">LinkedIn</label>
+        <input class="fill__div__input js-input-linkedin" type="url" name="linkedin" id="linkedin"
+            placeholder="Ej: minion.stuart" required>
+        <label class="fill__div__label" for="github" id="github" >GitHub</label>
+        <input class="fill__div__input js-input-github" type="url" name="github" id="github" placeholder="Ej: minionstuart"
+            required>
+    </div>
+</fieldset>
