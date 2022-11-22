@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
 import imgFooter from '../images/logo-minionlab.png';
 
@@ -5,6 +6,40 @@ import '../styles/App.scss';
 
 
 function App() {
+    const [dataCard, setDataCard] = useState({
+        palette: '1',
+	    name: '',
+	    job: '',
+	    phone: '',
+	    email: '',
+	    linkedin: '',
+	    github: '',
+	    photo: '',
+    });
+    
+    const handleInput = (ev) => {
+        const inputValue = ev.target.value;
+        const inputName = ev.target.name;
+        setDataCard({ ...dataCard, [inputName]: inputValue });
+    };
+
+    // CREAR FUNCIÓN RESET y hablar lo de los ternarios. 
+
+
+    // const renderCardName = () => {
+    //     if (dataCard.name === '') {
+    //         return "Minion Stuart";
+    //     }
+    //     else {
+    //         return dataCard.name
+    //     }
+    //     // const userName = (dataCard.name !== '') ? dataCard.name : 'Minion Stuart';
+    //     // dataCard.name = userName;
+
+    //     console.log(dataCard.name);
+
+    // }
+
     return (
         <>
             {/*--header*/}
@@ -27,7 +62,7 @@ function App() {
                         <article className="article js-article palette-1">
                             {/*--Header with title & subtitle*/}
                             <div className="article__header">
-                                <h1 className="article__header--title js-article-title">Minion Stuart</h1>
+                                <h1 className="article__header--title js-article-title">{(dataCard.name !== '') ? dataCard.name : 'Minion Stuart'}</h1>
                                 <h2 className="article__header--subtitle js-article-subtitle">Despicable villain</h2>
                             </div>
                             {/*--Container for profile picture*/}
@@ -111,34 +146,34 @@ function App() {
                             </div>
 
                             {/*--Disappears when the menu is toggled*/}
-                            <div className="fill__div js-fill-big-box collapsed">
+                            <div className="fill__div js-fill-big-box">
                                 <label className="fill__div__label" htmlFor="name" id="name">Nombre completo</label>
-                                <input className="fill__div__input js-input-name" type="text" name="name" id="name" placeholder="Ej: Minion Stuart"
+                                <input className="fill__div__input js-input-name" type="text" name="name" id="name" onChange={handleInput} placeholder="Ej: Minion Stuart"
                                     required />
                                 <label className="fill__div__label" htmlFor="job" id="job">Puesto </label>
-                                <input className="fill__div__input js-input-job" type="text" name="job" id="job" placeholder="Ej: Despicable villain"
+                                <input className="fill__div__input js-input-job" type="text" name="job" id="job" onChange={handleInput} placeholder="Ej: Despicable villain"
                                     required />
                                 <label className="fill__div__label" htmlFor="text">Imagen de perfil</label>
                                 {/*--orange button*/}
                                 <div className="fill__div__boxes">
                                     <label className="fill__div__boxes__orange" htmlFor="img-selector">Añadir imagen</label>
-                                    <input type="file" name="photo" id="img-selector" className="action__hiddenField  js__profile-upload-btn" />
+                                    <input type="file" name="photo" id="img-selector" className="action__hiddenField  js__profile-upload-btn"/>
                                     {/*--white box*/}
                                     <div className="fill__div__boxes__empty profile__preview js__profile-preview js-input-box">
                                     </div>
                                 </div>
 
                                 <label className="fill__div__label" htmlFor="email" id="email">Email</label>
-                                <input className="fill__div__input js-input-email" type="email" name="email" id="email"
+                                <input className="fill__div__input js-input-email" type="email" name="email" id="email" onChange={handleInput}
                                     placeholder="Ej: minion-stuart@gmail.com" required />
                                 <label className="fill__div__label" htmlFor="phone" id="phone">Teléfono</label>
-                                <input className="fill__div__input js-input-phone" type="tel" name="phone" id="phone"
+                                <input className="fill__div__input js-input-phone" type="tel" name="phone" id="phone" onChange={handleInput}
                                     placeholder="Ej: 555-55-55-55" />
                                 <label className="fill__div__label" htmlFor="linkedin" id="linkedin">LinkedIn</label>
-                                <input className="fill__div__input js-input-linkedin" type="url" name="linkedin" id="linkedin"
+                                <input className="fill__div__input js-input-linkedin" type="url" name="linkedin" id="linkedin" onChange={handleInput}
                                     placeholder="Ej: minion.stuart" required />
                                 <label className="fill__div__label" htmlFor="github" id="github" >GitHub</label>
-                                <input className="fill__div__input js-input-github" type="url" name="github" id="github" placeholder="Ej: minionstuart"
+                                <input className="fill__div__input js-input-github" type="url" name="github" id="github" onChange={handleInput} placeholder="Ej: minionstuart"
                                     required />
                             </div>
                         </fieldset>
