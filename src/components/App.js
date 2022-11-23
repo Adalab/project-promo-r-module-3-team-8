@@ -1,36 +1,40 @@
 import { useState } from 'react';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
 import imgFooter from '../images/logo-minionlab.png';
+import callToApi from '../services/api';
+import ls from '../services/localStorage';
 
 import '../styles/App.scss';
 
 function App() {
-  //Deshabilitar boton de crear tarjeta al hacer click
-  //Obtener del LocalStorage
+  //Algo da error en el fetch o en el btn disabled que el boton de crear tarjeta no funciona
 
   //State constants
-  const [dataCard, setDataCard] = useState({
-    palette: '1',
-    name: '',
-    job: '',
-    phone: '',
-    email: '',
-    linkedin: '',
-    github: '',
-    photo: '../images/minion.png',
-  });
   const [designIsOpen, setDesignIsOpen] = useState(false);
   const [fillIsOpen, setFillIsOpen] = useState(true);
   const [shareIsOpen, setShareIsOpen] = useState(true);
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [apiCard, setApiCard] = useState({});
+  const localStorageInfo = ls.get('savedDataCard', '');
+  const localStoragePalette = ls.get('savedDataCard', '1');
+  const localStorageImg = ls.get('savedDataCard', '../images/minion.png');
+  const [dataCard, setDataCard] = useState({
+    palette: localStoragePalette.palette,
+    name: localStorageInfo.name,
+    job: localStorageInfo.job,
+    phone: localStorageInfo.phone,
+    email: localStorageInfo.email,
+    linkedin: localStorageInfo.linkedin,
+    github: localStorageInfo.github,
+    photo: localStorageImg.photo,
+  });
 
   //Hanlder functions
   const handleUpdateDataCard = (ev) => {
     const inputValue = ev.target.value;
     const inputName = ev.target.name;
     setDataCard({ ...dataCard, [inputName]: inputValue });
-    localStorage.setItem('savedDataCard', JSON.stringify(dataCard));
+    ls.set('savedDataCard', dataCard);
   };
 
   const handleReset = () => {
@@ -68,22 +72,81 @@ function App() {
   const handleCreateButton = (ev) => {
     ev.preventDefault();
     setCreateIsOpen(false);
-    fetch('https://awesome-profile-cards.herokuapp.com/card', {
-      method: 'POST',
-      body: JSON.stringify(dataCard),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setApiCard(data);
-      })
-      .catch((error) => console.log(`Ha sucedido un error: ${error}`));
+    setApiCard(dataCard);
+    callToApi(apiCard).then((response) => setDataCard(response));
+
+    // fetch('https://awesome-profile-cards.herokuapp.com/card', {
+    //   method: 'POST',
+    //   body: JSON.stringify(dataCard),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setApiCard(data);
+    //   })
+    //   .catch((error) => console.log(`Ha sucedido un error: ${error}`));
   };
 
   //Render helpers
+  const renderCreateCard = () => {
+    const isBtnDisabled = createIsOpen === false;
+    return (
+      <div
+        className={`share__div js-share-big-box ${
+          shareIsOpen ? 'collapsed' : ''
+        }`}
+      >
+        <div className='createbutton-on js-create-button'>
+          <i className='fa-solid fa-address-card icon-id '></i>
+          <button
+            type='submit'
+            name=''
+            id=''
+            className='inputSubmit'
+            onClick={handleCreateButton}
+            disabled={isBtnDisabled}
+          >
+            Crear tarjeta
+          </button>
+        </div>
+        {/*--Change it to a button*/}
 
+        <div
+          className={`shareresultbox js-share-result-box ${
+            createIsOpen ? 'collapsed' : ''
+          }`}
+        >
+          <hr className='lineRectangle' />
+          <span className='shareresultbox__text'>
+            La tarjeta ha sido creada:
+          </span>
+          <a
+            href={apiCard.cardURL}
+            className='shareresultbox__link js-share-url'
+            target='_blank'
+            rel='noreferrer'
+          >
+            {apiCard.cardURL}
+          </a>
+          <div className='shareresultbox__twitterbox'>
+            {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
+            <a
+              href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
+              target='_blank'
+              rel='noreferrer'
+              className='shareresultbox__twitterbox--twitter js-link-twitter'
+            >
+              <i className='fa-brands fa-twitter tweet-icon'></i>
+              <span className='sharetwitter-text'> Compartir en twitter</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  //Return html
   return (
     <>
       {/*--header*/}
@@ -404,61 +467,8 @@ function App() {
                   }`}
                 ></i>
               </div>
-
               {/*--Change it to a button. This way it would validate the form. it does not need a submit input*/}
-              <div
-                className={`share__div js-share-big-box ${
-                  shareIsOpen ? 'collapsed' : ''
-                }`}
-              >
-                <div className='createbutton-on js-create-button'>
-                  <i className='fa-solid fa-address-card icon-id '></i>
-                  <button
-                    type='submit'
-                    name=''
-                    id=''
-                    className='inputSubmit'
-                    onClick={handleCreateButton}
-                  >
-                    Crear tarjeta
-                  </button>
-                </div>
-                {/*--Change it to a button*/}
-
-                <div
-                  className={`shareresultbox js-share-result-box ${
-                    createIsOpen ? 'collapsed' : ''
-                  }`}
-                >
-                  <hr className='lineRectangle' />
-                  <span className='shareresultbox__text'>
-                    La tarjeta ha sido creada:
-                  </span>
-                  <a
-                    href={apiCard.cardURL}
-                    className='shareresultbox__link js-share-url'
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    {apiCard.cardURL}
-                  </a>
-                  <div className='shareresultbox__twitterbox'>
-                    {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
-                      target='_blank'
-                      rel='noreferrer'
-                      className='shareresultbox__twitterbox--twitter js-link-twitter'
-                    >
-                      <i className='fa-brands fa-twitter tweet-icon'></i>
-                      <span className='sharetwitter-text'>
-                        {' '}
-                        Compartir en twitter
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              {renderCreateCard()};
             </fieldset>
           </form>
         </section>
