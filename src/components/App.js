@@ -67,7 +67,6 @@ function App() {
   const handleCreateButton = (ev) => {
     ev.preventDefault();
     setCreateIsOpen(false);
-    console.log(createIsOpen);
     fetch('https://awesome-profile-cards.herokuapp.com/card', {
       method: 'POST',
       body: JSON.stringify(dataCard),
