@@ -5,6 +5,7 @@ import imgFooter from '../images/logo-minionlab.png';
 import '../styles/App.scss';
 
 function App() {
+  //Deshabilitar boton de crear tarjeta al hacer click
   //Obtener del LocalStorage
 
   //State constants
