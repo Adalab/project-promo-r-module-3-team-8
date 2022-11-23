@@ -5,11 +5,9 @@ import imgFooter from '../images/logo-minionlab.png';
 import '../styles/App.scss';
 
 function App() {
-  //Abrir y cerrar secciones (in process)
-  //Twitter functionality: desplegar seccion al dar boton "crear tarjeta" + crear el link + boton a twitter
-  //Rescatar localstorage al cargar pagina
+  //Obtener del LocalStorage
 
-  //States
+  //State constants
   const [dataCard, setDataCard] = useState({
     palette: '1',
     name: '',
@@ -18,11 +16,15 @@ function App() {
     email: '',
     linkedin: '',
     github: '',
-    photo: '',
+    photo: '../images/minion.png',
   });
-  //   const [openSection, setOpenSection] = useState('collapsed');
+  const [designIsOpen, setDesignIsOpen] = useState(false);
+  const [fillIsOpen, setFillIsOpen] = useState(true);
+  const [shareIsOpen, setShareIsOpen] = useState(true);
+  const [createIsOpen, setCreateIsOpen] = useState(true);
+  const [apiCard, setApiCard] = useState({});
 
-  //Events
+  //Hanlder functions
   const handleUpdateDataCard = (ev) => {
     const inputValue = ev.target.value;
     const inputName = ev.target.name;
@@ -44,46 +46,43 @@ function App() {
   };
 
   const handleOpenSection = (ev) => {
-    const clickedEl = ev.currentTarget; //elemento clickado
-    console.log(clickedEl);
-    /* const clickedElSibling = clickedEl.nextElementSibling; //hermano del elemento clickado
-    console.log(clickedElSibling);
-    clickedElSibling.classList.add('collapesed'); */
-
-    /* 
-    toggleClass (clickElementSibling,'hide' );
-
-    if (containerDesign !== clickElementSibling){
-      addClass (containerDesign, 'hide');
-      addClass (upArrow,'rotate');
-    } else {toggleClass (upArrow,'rotate');}
-  
-    if (containerFill !== clickElementSibling) {
-      addClass (containerFill, 'hide');
-      addClass (upArrow1,'rotate');
-    }else {toggleClass (upArrow1,'rotate');}
-  
-    if (containerCreate !== clickElementSibling){
-      addClass (containerCreate, 'hide');
-      addClass (upArrow2,'rotate');
-      addClass (shareTwitter,'hide');
-      removeClass (btnCreate,'btnGrey');
-    } else {
-      toggleClass (upArrow2,'rotate');
-      addClass (shareTwitter,'hide');
-      removeClass (btnCreate,'btnGrey');
+    const clickedEl = ev.currentTarget.id;
+    if (clickedEl === 'design') {
+      setDesignIsOpen(false);
+      setFillIsOpen(true);
+      setShareIsOpen(true);
     }
-    if (containerFill.classList.contains('hide')&&containerCreate.classList.contains('hide')){
-      removeClass(containerDesign,'hide');
-      removeClass (upArrow,'rotate');
-
- */
-
-    // if ()
-    // if (openSection !== '') {
-    //   setOpenSection('');
-    // }
+    if (clickedEl === 'fill') {
+      setDesignIsOpen(true);
+      setFillIsOpen(false);
+      setShareIsOpen(true);
+    }
+    if (clickedEl === 'share') {
+      setDesignIsOpen(true);
+      setFillIsOpen(true);
+      setShareIsOpen(false);
+    }
   };
+
+  const handleCreateButton = (ev) => {
+    ev.preventDefault();
+    setCreateIsOpen(false);
+    console.log(createIsOpen);
+    fetch('https://awesome-profile-cards.herokuapp.com/card', {
+      method: 'POST',
+      body: JSON.stringify(dataCard),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setApiCard(data);
+      })
+      .catch((error) => console.log(`Ha sucedido un error: ${error}`));
+  };
+
+  //Render helpers
 
   return (
     <>
@@ -151,6 +150,7 @@ function App() {
                       className='article__nav--link js-article-link-linkedin'
                       href={`https://www.linkedin.com/in/${dataCard.linkedin}`}
                       target='_blank'
+                      rel='noreferrer'
                     >
                       <i className='fa-brands fa-linkedin-in fa-md'></i>
                     </a>
@@ -160,6 +160,7 @@ function App() {
                       className='article__nav--link js-article-link-github'
                       href={`https://github.com/${dataCard.github}`}
                       target='_blank'
+                      rel='noreferrer'
                     >
                       <i className='fa-brands fa-github-alt fa-md'></i>
                     </a>
@@ -174,7 +175,11 @@ function App() {
           <form className='js-form'>
             {/*--design*/}
             <fieldset className='design'>
-              <div className='design__head js-design-head'>
+              <div
+                className='design__head js-design-head'
+                id='design'
+                onClick={handleOpenSection}
+              >
                 <div className='design__head__intro'>
                   <i className='fa-regular fa-object-ungroup box--element design__head__intro__icon'></i>
                   <legend className='design__head__intro__title'>
@@ -182,12 +187,24 @@ function App() {
                     Diseña
                   </legend>
                 </div>
-                <i className='fa-solid fa-angle-up design__head__arrow js-design-arrow-up collapsed'></i>
-                <i className='fa-solid fa-angle-down design__head__arrow js-design-arrow-down'></i>
+                <i
+                  className={`fa-solid fa-angle-up design__head__arrow js-design-arrow-up ${
+                    designIsOpen ? 'collapsed' : ''
+                  }`}
+                ></i>
+                <i
+                  className={`fa-solid fa-angle-down design__head__arrow js-design-arrow-down ${
+                    designIsOpen ? '' : 'collapsed'
+                  }`}
+                ></i>
               </div>
 
               {/*--Disappears when the menu is toggled*/}
-              <div className='design__palette js-design-big-box'>
+              <div
+                className={`design__palette js-design-big-box ${
+                  designIsOpen ? 'collapsed' : ''
+                }`}
+              >
                 <p className='design__palette__p'> Colores</p>
                 <div className='design__palette__box design__palette__box--1'>
                   <input
@@ -234,6 +251,7 @@ function App() {
             <fieldset className='fill'>
               <div
                 className='fill__head js-fill-head'
+                id='fill'
                 onClick={handleOpenSection}
               >
                 <div className='fill__head__intro'>
@@ -241,12 +259,24 @@ function App() {
                   <legend className='fill__head__intro__title'> Rellena</legend>
                 </div>
                 {/*--Disappears when the menu is toggled*/}
-                <i className='fa-solid fa-angle-up fill__head__arrow js-fill-arrow-up'></i>
-                <i className='fa-solid fa-angle-down fill__head__arrow js-fill-arrow-down collapsed'></i>
+                <i
+                  className={`fa-solid fa-angle-up fill__head__arrow js-fill-arrow-up ${
+                    fillIsOpen ? 'collapsed' : ''
+                  }`}
+                ></i>
+                <i
+                  className={`fa-solid fa-angle-down fill__head__arrow js-fill-arrow-down ${
+                    fillIsOpen ? '' : 'collapsed'
+                  }`}
+                ></i>
               </div>
 
               {/*--Disappears when the menu is toggled*/}
-              <div className='fill__div js-fill-big-box'>
+              <div
+                className={`fill__div js-fill-big-box ${
+                  fillIsOpen ? 'collapsed' : ''
+                }`}
+              >
                 <label className='fill__div__label' htmlFor='name' id='name'>
                   Nombre completo
                 </label>
@@ -352,46 +382,72 @@ function App() {
             {/*--share*/}
             <fieldset className='share'>
               {/*--Review button -submit*/}
-              <div className='share__head js-share-head'>
+              <div
+                className='share__head js-share-head'
+                id='share'
+                onClick={handleOpenSection}
+              >
                 <span className='share__head__intro'>
                   <i className='fa-solid fa-share-nodes icon-sharebox--element share__head__intro__icon'></i>
                   <legend className='share__head__intro__title'>
                     Comparte
                   </legend>
                 </span>
-                <i className='fa-solid fa-angle-up share__head__arrow js-share-arrow-up'></i>
-                <i className='fa-solid fa-angle-down share__head__arrow js-share-arrow-down collapsed'></i>
+                <i
+                  className={`fa-solid fa-angle-up share__head__arrow js-share-arrow-up ${
+                    shareIsOpen ? 'collapsed' : ''
+                  }`}
+                ></i>
+                <i
+                  className={`fa-solid fa-angle-down share__head__arrow js-share-arrow-down ${
+                    shareIsOpen ? '' : 'collapsed'
+                  }`}
+                ></i>
               </div>
 
               {/*--Change it to a button. This way it would validate the form. it does not need a submit input*/}
-              <div className='share__div js-share-big-box collapsed'>
+              <div
+                className={`share__div js-share-big-box ${
+                  shareIsOpen ? 'collapsed' : ''
+                }`}
+              >
                 <div className='createbutton-on js-create-button'>
                   <i className='fa-solid fa-address-card icon-id '></i>
-                  <input
+                  <button
                     type='submit'
                     name=''
                     id=''
-                    value=' Crear tarjeta'
                     className='inputSubmit'
-                  />
+                    onClick={handleCreateButton}
+                  >
+                    Crear tarjeta
+                  </button>
                 </div>
                 {/*--Change it to a button*/}
 
-                <div className='shareresultbox collapsed js-share-result-box'>
+                <div
+                  className={`shareresultbox js-share-result-box ${
+                    createIsOpen ? 'collapsed' : ''
+                  }`}
+                >
                   <hr className='lineRectangle' />
                   <span className='shareresultbox__text'>
                     La tarjeta ha sido creada:
                   </span>
                   <a
-                    href='#'
+                    href={apiCard.cardURL}
                     className='shareresultbox__link js-share-url'
                     target='_blank'
-                  ></a>
+                    rel='noreferrer'
+                  >
+                    {apiCard.cardURL}
+                  </a>
                   <div className='shareresultbox__twitterbox'>
                     {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
                     <a
-                      href='#'
+                      href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
                       target='_blank'
+                      rel='noreferrer'
                       className='shareresultbox__twitterbox--twitter js-link-twitter'
                     >
                       <i className='fa-brands fa-twitter tweet-icon'></i>
