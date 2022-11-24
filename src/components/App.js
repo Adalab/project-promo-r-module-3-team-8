@@ -7,27 +7,26 @@ import ls from '../services/localStorage';
 import '../styles/App.scss';
 
 function App() {
-  //Algo da error en el fetch o en el btn disabled que el boton de crear tarjeta no funciona
-
   //State constants
   const [designIsOpen, setDesignIsOpen] = useState(false);
   const [fillIsOpen, setFillIsOpen] = useState(true);
   const [shareIsOpen, setShareIsOpen] = useState(true);
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [apiCard, setApiCard] = useState({});
-  const localStorageInfo = ls.get('savedDataCard', '');
-  const localStoragePalette = ls.get('savedDataCard', '1');
-  const localStorageImg = ls.get('savedDataCard', '../images/minion.png');
+
+  const lsInfo = ls.get('savedDataCard', '');
+
   const [dataCard, setDataCard] = useState({
-    palette: localStoragePalette.palette,
-    name: localStorageInfo.name,
-    job: localStorageInfo.job,
-    phone: localStorageInfo.phone,
-    email: localStorageInfo.email,
-    linkedin: localStorageInfo.linkedin,
-    github: localStorageInfo.github,
-    photo: localStorageImg.photo,
+    palette: lsInfo.palette,
+    name: lsInfo.name,
+    job: lsInfo.job,
+    phone: lsInfo.phone,
+    email: lsInfo.email,
+    linkedin: lsInfo.linkedin,
+    github: lsInfo.github,
+    photo: '../images/minion.png',
   });
+  console.log(dataCard);
 
   //Hanlder functions
   const handleUpdateDataCard = (ev) => {
@@ -72,8 +71,7 @@ function App() {
   const handleCreateButton = (ev) => {
     ev.preventDefault();
     setCreateIsOpen(false);
-    setApiCard(dataCard);
-    callToApi(apiCard).then((response) => setDataCard(response));
+    callToApi(dataCard).then((response) => setApiCard(response));
 
     // fetch('https://awesome-profile-cards.herokuapp.com/card', {
     //   method: 'POST',
@@ -146,6 +144,7 @@ function App() {
       </div>
     );
   };
+
   //Return html
   return (
     <>
@@ -176,7 +175,9 @@ function App() {
             </button>
             {/*--Article*/}
             <article
-              className={`article js-article palette-${dataCard.palette}`}
+              className={`article js-article palette-${
+                dataCard.palette !== '' ? dataCard.palette : '1'
+              }`}
             >
               {/*--Header with title & subtitle*/}
               <div className='article__header'>
@@ -211,7 +212,7 @@ function App() {
                   <li>
                     <a
                       className='article__nav--link js-article-link-linkedin'
-                      href={`https://www.linkedin.com/in/${dataCard.linkedin}`}
+                      href={`https://www.linkedin.com/in/${dataCard.linkedin}/`}
                       target='_blank'
                       rel='noreferrer'
                     >
@@ -468,7 +469,7 @@ function App() {
                 ></i>
               </div>
               {/*--Change it to a button. This way it would validate the form. it does not need a submit input*/}
-              {renderCreateCard()};
+              {renderCreateCard()}
             </fieldset>
           </form>
         </section>
