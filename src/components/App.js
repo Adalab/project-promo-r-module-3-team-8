@@ -26,9 +26,8 @@ function App() {
     github: lsInfo.github,
     photo: '../images/minion.png',
   });
-  console.log(dataCard);
 
-  //Hanlder functions
+  //Handler functions
   const handleUpdateDataCard = (ev) => {
     const inputValue = ev.target.value;
     const inputName = ev.target.name;
@@ -72,19 +71,6 @@ function App() {
     ev.preventDefault();
     setCreateIsOpen(false);
     callToApi(dataCard).then((response) => setApiCard(response));
-
-    // fetch('https://awesome-profile-cards.herokuapp.com/card', {
-    //   method: 'POST',
-    //   body: JSON.stringify(dataCard),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setApiCard(data);
-    //   })
-    //   .catch((error) => console.log(`Ha sucedido un error: ${error}`));
   };
 
   //Render helpers

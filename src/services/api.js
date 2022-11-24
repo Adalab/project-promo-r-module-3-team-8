@@ -10,7 +10,6 @@ const callToApi = (data) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       return data;
       //importante retornar siempre el fetch
     })
