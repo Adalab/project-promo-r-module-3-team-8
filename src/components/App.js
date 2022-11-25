@@ -14,7 +14,20 @@ function App() {
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [apiCard, setApiCard] = useState({});
 
-  const lsInfo = ls.get('savedDataCard', '');
+  const dataDefault ={
+    palette: '1',
+    name: '',
+    job: '',
+    phone: '',
+    email: '',
+    linkedin: '',
+    github: '',
+    photo: '../images/minion.png',
+  };
+
+  const lsInfo = ls.get('savedDataCard', dataDefault);
+
+
 
   const [dataCard, setDataCard] = useState({
     palette: lsInfo.palette,
@@ -29,10 +42,8 @@ function App() {
 
   //Handler functions
   const handleUpdateDataCard = (ev) => {
-    const inputValue = ev.target.value;
-    const inputName = ev.target.name;
-    setDataCard({ ...dataCard, [inputName]: inputValue });
-    ls.set('savedDataCard', dataCard);
+    setDataCard({ ...dataCard, [ ev.target.name]: ev.target.value });
+    ls.set('savedDataCard', { ...dataCard, [ ev.target.name]: ev.target.value })
   };
 
   const handleReset = () => {
@@ -46,6 +57,7 @@ function App() {
       github: '',
       photo: '',
     });
+    ls.clear();
   };
 
   const handleOpenSection = (ev) => {
@@ -169,6 +181,7 @@ function App() {
               <div className='article__header'>
                 <h1 className='article__header--title js-article-title'>
                   {dataCard.name !== '' ? dataCard.name : 'Minion Stuart'}
+
                 </h1>
                 <h2 className='article__header--subtitle js-article-subtitle'>
                   {dataCard.job !== '' ? dataCard.job : 'Despicable villain'}
@@ -336,6 +349,7 @@ function App() {
                   name='name'
                   id='name'
                   onChange={handleUpdateDataCard}
+                  value={dataCard.name}
                   placeholder='Ej: Minion Stuart'
                   required
                 />
@@ -348,6 +362,7 @@ function App() {
                   name='job'
                   id='job'
                   onChange={handleUpdateDataCard}
+                  value={dataCard.job}
                   placeholder='Ej: Despicable villain'
                   required
                 />
@@ -381,6 +396,7 @@ function App() {
                   name='email'
                   id='email'
                   onChange={handleUpdateDataCard}
+                  value={dataCard.email}
                   placeholder='Ej: minion-stuart@gmail.com'
                   required
                 />
@@ -393,6 +409,7 @@ function App() {
                   name='phone'
                   id='phone'
                   onChange={handleUpdateDataCard}
+                  value={dataCard.phone}
                   placeholder='Ej: 555-55-55-55'
                 />
                 <label
@@ -408,6 +425,7 @@ function App() {
                   name='linkedin'
                   id='linkedin'
                   onChange={handleUpdateDataCard}
+                  value={dataCard.linkedin}
                   placeholder='Ej: minion.stuart'
                   required
                 />
@@ -424,6 +442,7 @@ function App() {
                   name='github'
                   id='github'
                   onChange={handleUpdateDataCard}
+                  value={dataCard.github}
                   placeholder='Ej: minionstuart'
                   required
                 />
