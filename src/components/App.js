@@ -14,7 +14,7 @@ function App() {
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [apiCard, setApiCard] = useState({});
 
-  const dataDefault ={
+  const dataDefault = {
     palette: '1',
     name: '',
     job: '',
@@ -26,8 +26,6 @@ function App() {
   };
 
   const lsInfo = ls.get('savedDataCard', dataDefault);
-
-
 
   const [dataCard, setDataCard] = useState({
     palette: lsInfo.palette,
@@ -42,21 +40,12 @@ function App() {
 
   //Handler functions
   const handleUpdateDataCard = (ev) => {
-    setDataCard({ ...dataCard, [ ev.target.name]: ev.target.value });
-    ls.set('savedDataCard', { ...dataCard, [ ev.target.name]: ev.target.value })
+    setDataCard({ ...dataCard, [ev.target.name]: ev.target.value });
+    ls.set('savedDataCard', { ...dataCard, [ev.target.name]: ev.target.value });
   };
 
   const handleReset = () => {
-    setDataCard({
-      palette: '1',
-      name: '',
-      job: '',
-      phone: '',
-      email: '',
-      linkedin: '',
-      github: '',
-      photo: '',
-    });
+    setDataCard(dataDefault);
     ls.clear();
   };
 
@@ -181,7 +170,6 @@ function App() {
               <div className='article__header'>
                 <h1 className='article__header--title js-article-title'>
                   {dataCard.name !== '' ? dataCard.name : 'Minion Stuart'}
-
                 </h1>
                 <h2 className='article__header--subtitle js-article-subtitle'>
                   {dataCard.job !== '' ? dataCard.job : 'Despicable villain'}
