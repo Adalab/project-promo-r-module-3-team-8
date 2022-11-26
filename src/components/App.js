@@ -14,7 +14,7 @@ function App() {
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [apiCard, setApiCard] = useState({});
 
-  const dataDefault = {
+  const defaultDataCard = {
     palette: '1',
     name: '',
     job: '',
@@ -25,7 +25,7 @@ function App() {
     photo: '../images/minion.png',
   };
 
-  const lsInfo = ls.get('savedDataCard', dataDefault);
+  const lsInfo = ls.get('savedDataCard', defaultDataCard);
 
   const [dataCard, setDataCard] = useState({
     palette: lsInfo.palette,
@@ -45,7 +45,7 @@ function App() {
   };
 
   const handleReset = () => {
-    setDataCard(dataDefault);
+    setDataCard(defaultDataCard);
     ls.clear();
   };
 
