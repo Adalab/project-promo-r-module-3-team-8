@@ -1,3 +1,9 @@
+@import '../core/variables';
+@import '../core/reset';
+@import '../core/functions';
+@import '../core/mixins';
+@import '../core/javascript';
+
 .footer{
     height: 15vh;
     display: flex;
