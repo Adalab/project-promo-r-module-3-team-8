@@ -141,25 +141,39 @@ function App() {
   return (
     <>
       {/*--header*/}
-     <Header imgHeader={imgHeader} />
+      <Header imgHeader={imgHeader} />
       {/*--main*/}
       <main className='main__cards'>
         {/*--preview*/}
-   <CardPreview handleReset={handleReset} dataCard={dataCard}/>
+        <CardPreview handleReset={handleReset} dataCard={dataCard} />
         {/*--form*/}
         <section className='main__cards--section'>
           <form className='js-form'>
             {/*--design*/}
-          <Design dataCard={dataCard} handleUpdateDataCard={handleUpdateDataCard} designIsOpen={designIsOpen} />
+            <Design
+              dataCard={dataCard}
+              handleUpdateDataCard={handleUpdateDataCard}
+              designIsOpen={designIsOpen}
+              handleOpenSection={handleOpenSection}
+            />
             {/*--fill*/}
-           <Fill handleOpenSection={handleOpenSection} fillIsOpen={fillIsOpen} dataCard={dataCard} handleUpdateDataCard={handleUpdateDataCard} />
+            <Fill
+              dataCard={dataCard}
+              handleUpdateDataCard={handleUpdateDataCard}
+              fillIsOpen={fillIsOpen}
+              handleOpenSection={handleOpenSection}
+            />
             {/*--share*/}
-            <Share handleOpenSection={handleOpenSection} shareIsOpen={shareIsOpen} renderCreateCard={renderCreateCard}/>
+            <Share
+              shareIsOpen={shareIsOpen}
+              handleOpenSection={handleOpenSection}
+              renderCreateCard={renderCreateCard}
+            />
           </form>
         </section>
       </main>
       {/*--footer*/}
-     < Footer />
+      <Footer />
     </>
   );
 }
