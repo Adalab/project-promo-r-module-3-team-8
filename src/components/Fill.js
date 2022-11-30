@@ -1,7 +1,6 @@
 import '../styles/components/Fill.scss';
 
 function Fill(props) {
-  console.log(props);
   return (
     <fieldset className='fill'>
       <div

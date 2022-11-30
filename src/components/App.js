@@ -1,22 +1,18 @@
 import { useState } from 'react';
+
+import '../styles/App.scss';
+
 import callToApi from '../services/api';
 import ls from '../services/localStorage';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
-
-import '../styles/App.scss';
-import Footer from './Footer';
-import Header from './Header';
-import CardPreview from './CardPreview';
-import Design from './Design';
-import Fill from './Fill';
-import Share from './Share';
+import Card from './Card';
+import Landing from './landing';
 
 function App() {
   //State constants
-  const [designIsOpen, setDesignIsOpen] = useState(false);
-  const [fillIsOpen, setFillIsOpen] = useState(true);
-  const [shareIsOpen, setShareIsOpen] = useState(true);
   const [createIsOpen, setCreateIsOpen] = useState(true);
+  const [shareIsOpen, setShareIsOpen] = useState(true);
+  
   const [apiCard, setApiCard] = useState({});
 
   const defaultDataCard = {
@@ -52,25 +48,6 @@ function App() {
   const handleReset = () => {
     setDataCard(defaultDataCard);
     ls.clear();
-  };
-
-  const handleOpenSection = (ev) => {
-    const clickedEl = ev.currentTarget.id;
-    if (clickedEl === 'design') {
-      setDesignIsOpen(false);
-      setFillIsOpen(true);
-      setShareIsOpen(true);
-    }
-    if (clickedEl === 'fill') {
-      setDesignIsOpen(true);
-      setFillIsOpen(false);
-      setShareIsOpen(true);
-    }
-    if (clickedEl === 'share') {
-      setDesignIsOpen(true);
-      setFillIsOpen(true);
-      setShareIsOpen(false);
-    }
   };
 
   const handleCreateButton = (ev) => {
@@ -140,40 +117,9 @@ function App() {
   //Return html
   return (
     <>
-      {/*--header*/}
-      <Header imgHeader={imgHeader} />
-      {/*--main*/}
-      <main className='main__cards'>
-        {/*--preview*/}
-        <CardPreview handleReset={handleReset} dataCard={dataCard} />
-        {/*--form*/}
-        <section className='main__cards--section'>
-          <form className='js-form'>
-            {/*--design*/}
-            <Design
-              dataCard={dataCard}
-              handleUpdateDataCard={handleUpdateDataCard}
-              designIsOpen={designIsOpen}
-              handleOpenSection={handleOpenSection}
-            />
-            {/*--fill*/}
-            <Fill
-              dataCard={dataCard}
-              handleUpdateDataCard={handleUpdateDataCard}
-              fillIsOpen={fillIsOpen}
-              handleOpenSection={handleOpenSection}
-            />
-            {/*--share*/}
-            <Share
-              shareIsOpen={shareIsOpen}
-              handleOpenSection={handleOpenSection}
-              renderCreateCard={renderCreateCard}
-            />
-          </form>
-        </section>
-      </main>
-      {/*--footer*/}
-      <Footer />
+      <Landing  imgHeader={imgHeader} />
+
+      <Card imgHeader={imgHeader} handleReset={handleReset} dataCard={dataCard} handleUpdateDataCard={handleUpdateDataCard} renderCreateCard={renderCreateCard} shareIsOpen={shareIsOpen} />
     </>
   );
 }

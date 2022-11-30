@@ -70,5 +70,7 @@ function CardPreview(props){
     </div>
   </section>
 
-)}
+  )
+};
+
 export default CardPreview;
