@@ -6,13 +6,15 @@ import callToApi from '../services/api';
 import ls from '../services/localStorage';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
 import Card from './Card';
-import Landing from './landing';
+import Landing from './Landing';
+
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   //State constants
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [shareIsOpen, setShareIsOpen] = useState(true);
-  
+
   const [apiCard, setApiCard] = useState({});
 
   const defaultDataCard = {
@@ -65,13 +67,13 @@ function App() {
           shareIsOpen ? 'collapsed' : ''
         }`}
       >
-        <div className='createbutton-on js-create-button'>
-          <i className='fa-solid fa-address-card icon-id '></i>
+        <div className="createbutton-on js-create-button">
+          <i className="fa-solid fa-address-card icon-id "></i>
           <button
-            type='submit'
-            name=''
-            id=''
-            className='inputSubmit'
+            type="submit"
+            name=""
+            id=""
+            className="inputSubmit"
             onClick={handleCreateButton}
             disabled={isBtnDisabled}
           >
@@ -85,28 +87,28 @@ function App() {
             createIsOpen ? 'collapsed' : ''
           }`}
         >
-          <hr className='lineRectangle' />
-          <span className='shareresultbox__text'>
+          <hr className="lineRectangle" />
+          <span className="shareresultbox__text">
             La tarjeta ha sido creada:
           </span>
           <a
             href={apiCard.cardURL}
-            className='shareresultbox__link js-share-url'
-            target='_blank'
-            rel='noreferrer'
+            className="shareresultbox__link js-share-url"
+            target="_blank"
+            rel="noreferrer"
           >
             {apiCard.cardURL}
           </a>
-          <div className='shareresultbox__twitterbox'>
+          <div className="shareresultbox__twitterbox">
             {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
             <a
               href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
-              target='_blank'
-              rel='noreferrer'
-              className='shareresultbox__twitterbox--twitter js-link-twitter'
+              target="_blank"
+              rel="noreferrer"
+              className="shareresultbox__twitterbox--twitter js-link-twitter"
             >
-              <i className='fa-brands fa-twitter tweet-icon'></i>
-              <span className='sharetwitter-text'> Compartir en twitter</span>
+              <i className="fa-brands fa-twitter tweet-icon"></i>
+              <span className="sharetwitter-text"> Compartir en twitter</span>
             </a>
           </div>
         </div>
@@ -117,9 +119,23 @@ function App() {
   //Return html
   return (
     <>
-      <Landing  imgHeader={imgHeader} />
-
-      <Card imgHeader={imgHeader} handleReset={handleReset} dataCard={dataCard} handleUpdateDataCard={handleUpdateDataCard} renderCreateCard={renderCreateCard} shareIsOpen={shareIsOpen} />
+      <Routes>
+        <Route path="/" element={<Landing imgHeader={imgHeader} />} />
+        <Route
+          path="/cards"
+          element={
+            <Card
+              imgHeader={imgHeader}
+              handleReset={handleReset}
+              dataCard={dataCard}
+              handleUpdateDataCard={handleUpdateDataCard}
+              renderCreateCard={renderCreateCard}
+              shareIsOpen={shareIsOpen}
+              setShareIsOpen={setShareIsOpen}
+            />
+          }
+        />
+      </Routes>
     </>
   );
 }
