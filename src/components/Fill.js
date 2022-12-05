@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import '../styles/components/Fill.scss';
 import ImageReader from './ImageReader';
 
@@ -13,7 +14,6 @@ function Fill(props) {
           <i className='fa-solid fa-keyboard box--element fill__head__intro__icon'></i>
           <legend className='fill__head__intro__title'> Rellena</legend>
         </div>
-        {/*--Disappears when the menu is toggled*/}
         <i
           className={`fa-solid fa-angle-up fill__head__arrow js-fill-arrow-up ${
             props.fillIsOpen ? 'collapsed' : ''
@@ -25,8 +25,6 @@ function Fill(props) {
           }`}
         ></i>
       </div>
-
-      {/*--Disappears when the menu is toggled*/}
       <div
         className={`fill__div js-fill-big-box ${
           props.fillIsOpen ? 'collapsed' : ''
@@ -121,5 +119,10 @@ function Fill(props) {
     </fieldset>
   );
 }
+
+Fill.propTypes = {
+  fillIsOpen: PropTypes.bool.isRequired,
+  handleOpenSection: PropTypes.func.isRequired,
+};
 
 export default Fill;

@@ -1,25 +1,20 @@
+import PropTypes from 'prop-types';
 import Reset from './Reset';
 import '../styles/components/CardPreview.scss';
 
 function CardPreview(props) {
   const selectedPhoto =
-    props.dataCard.photo !== undefined
-      ? props.dataCard.photo
-      : props.defaultImage;
+    props.dataCard.photo !== '' ? props.dataCard.photo : props.defaultImage;
 
   return (
     <section className='preview'>
-      {/*--Secondary container for wrapping items*/}
       <div className='preview__content'>
-        {/*--Reset button*/}
         <Reset handleReset={props.handleReset} />
-        {/*--Article*/}
         <article
           className={`article js-article palette-${
             props.dataCard.palette !== '' ? props.dataCard.palette : '1'
           }`}
         >
-          {/*--Header with title & subtitle*/}
           <div className='article__header'>
             <h1 className='article__header--title js-article-title'>
               {props.dataCard.name !== ''
@@ -32,12 +27,10 @@ function CardPreview(props) {
                 : 'Despicable villain'}
             </h2>
           </div>
-          {/*--Container for profile picture*/}
           <div
             className='article__photo js-article-photo js__profile-image profile__image'
             style={{ backgroundImage: `url(${selectedPhoto})` }}
           ></div>
-          {/*--Navigation menu with icons*/}
           <nav className='article__nav'>
             <ul className='article__nav--list'>
               <li>
@@ -83,5 +76,9 @@ function CardPreview(props) {
     </section>
   );
 }
+
+CardPreview.propTypes = {
+  defaultImage: PropTypes.string,
+};
 
 export default CardPreview;

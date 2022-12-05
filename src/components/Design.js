@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Palettes from './Palettes';
 import '../styles/components/Design.scss';
 
@@ -24,8 +25,6 @@ function Design(props) {
           }`}
         ></i>
       </div>
-
-      {/*--Disappears when the menu is toggled*/}
       <Palettes
         designIsOpen={props.designIsOpen}
         dataCard={props.dataCard}
@@ -34,5 +33,10 @@ function Design(props) {
     </fieldset>
   );
 }
+
+Design.propTypes = {
+  designIsOpen: PropTypes.bool.isRequired,
+  handleOpenSection: PropTypes.func.isRequired,
+};
 
 export default Design;

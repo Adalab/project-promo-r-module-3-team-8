@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import '../styles/App.scss';
+
 import callToApi from '../services/api';
 import ls from '../services/localStorage';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
 import Card from './Card';
 import Landing from './Landing';
-import { Routes, Route } from 'react-router-dom';
 
 function App() {
   //State variables
@@ -20,18 +21,18 @@ function App() {
     email: '',
     linkedin: '',
     github: '',
-    photo: '../images/mesa-de-trabajo1.png',
+    photo: '',
   };
-  const lsInfo = ls.get('savedDataCard', defaultDataCard);
+  const cardInfo = ls.get('savedDataCard', defaultDataCard);
   const [dataCard, setDataCard] = useState({
-    palette: lsInfo.palette,
-    name: lsInfo.name,
-    job: lsInfo.job,
-    phone: lsInfo.phone,
-    email: lsInfo.email,
-    linkedin: lsInfo.linkedin,
-    github: lsInfo.github,
-    photo: ls.photo,
+    palette: cardInfo.palette,
+    name: cardInfo.name,
+    job: cardInfo.job,
+    phone: cardInfo.phone,
+    email: cardInfo.email,
+    linkedin: cardInfo.linkedin,
+    github: cardInfo.github,
+    photo: cardInfo.photo,
   });
 
   //Handler functions
@@ -65,7 +66,11 @@ function App() {
           shareIsOpen ? 'collapsed' : ''
         }`}
       >
-        <div className='createbutton-on js-create-button'>
+        <div
+          className={`${
+            isBtnDisabled ? 'createbutton-of' : 'createbutton-on'
+          } js-create-button`}
+        >
           <i className='fa-solid fa-address-card icon-id '></i>
           <button
             type='submit'
@@ -78,8 +83,6 @@ function App() {
             Crear tarjeta
           </button>
         </div>
-        {/*--Change it to a button*/}
-
         <div
           className={`shareresultbox js-share-result-box ${
             createIsOpen ? 'collapsed' : ''
@@ -98,7 +101,6 @@ function App() {
             {apiCard.cardURL}
           </a>
           <div className='shareresultbox__twitterbox'>
-            {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
             <a
               href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
               target='_blank'
