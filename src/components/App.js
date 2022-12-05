@@ -7,16 +7,15 @@ import ls from '../services/localStorage';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
 import Card from './Card';
 import Landing from './Landing';
+import { useRef } from 'react';
 
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
-  //State constants
+  //State variables
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [shareIsOpen, setShareIsOpen] = useState(true);
-
   const [apiCard, setApiCard] = useState({});
-
   const defaultDataCard = {
     palette: '1',
     name: '',
@@ -25,11 +24,9 @@ function App() {
     email: '',
     linkedin: '',
     github: '',
-    photo: '../images/minion.png',
+    photo: '',
   };
-
   const lsInfo = ls.get('savedDataCard', defaultDataCard);
-
   const [dataCard, setDataCard] = useState({
     palette: lsInfo.palette,
     name: lsInfo.name,
@@ -38,7 +35,7 @@ function App() {
     email: lsInfo.email,
     linkedin: lsInfo.linkedin,
     github: lsInfo.github,
-    photo: '../images/minion.png',
+    photo: ls.photo,
   });
 
   //Handler functions
@@ -58,6 +55,11 @@ function App() {
     callToApi(dataCard).then((response) => setApiCard(response));
   };
 
+  const handleImage = (image) => {
+    setDataCard({ ...dataCard, photo: image });
+    ls.set('savedDataCard', { ...dataCard, photo: image });
+  };
+
   //Render helpers
   const renderCreateCard = () => {
     const isBtnDisabled = createIsOpen === false;
@@ -67,13 +69,13 @@ function App() {
           shareIsOpen ? 'collapsed' : ''
         }`}
       >
-        <div className="createbutton-on js-create-button">
-          <i className="fa-solid fa-address-card icon-id "></i>
+        <div className='createbutton-on js-create-button'>
+          <i className='fa-solid fa-address-card icon-id '></i>
           <button
-            type="submit"
-            name=""
-            id=""
-            className="inputSubmit"
+            type='submit'
+            name=''
+            id=''
+            className='inputSubmit'
             onClick={handleCreateButton}
             disabled={isBtnDisabled}
           >
@@ -87,28 +89,28 @@ function App() {
             createIsOpen ? 'collapsed' : ''
           }`}
         >
-          <hr className="lineRectangle" />
-          <span className="shareresultbox__text">
+          <hr className='lineRectangle' />
+          <span className='shareresultbox__text'>
             La tarjeta ha sido creada:
           </span>
           <a
             href={apiCard.cardURL}
-            className="shareresultbox__link js-share-url"
-            target="_blank"
-            rel="noreferrer"
+            className='shareresultbox__link js-share-url'
+            target='_blank'
+            rel='noreferrer'
           >
             {apiCard.cardURL}
           </a>
-          <div className="shareresultbox__twitterbox">
+          <div className='shareresultbox__twitterbox'>
             {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
             <a
               href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
-              target="_blank"
-              rel="noreferrer"
-              className="shareresultbox__twitterbox--twitter js-link-twitter"
+              target='_blank'
+              rel='noreferrer'
+              className='shareresultbox__twitterbox--twitter js-link-twitter'
             >
-              <i className="fa-brands fa-twitter tweet-icon"></i>
-              <span className="sharetwitter-text"> Compartir en twitter</span>
+              <i className='fa-brands fa-twitter tweet-icon'></i>
+              <span className='sharetwitter-text'> Compartir en twitter</span>
             </a>
           </div>
         </div>
@@ -120,9 +122,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Landing imgHeader={imgHeader} />} />
+        <Route path='/' element={<Landing imgHeader={imgHeader} />} />
         <Route
-          path="/cards"
+          path='/cards'
           element={
             <Card
               imgHeader={imgHeader}
@@ -132,6 +134,7 @@ function App() {
               renderCreateCard={renderCreateCard}
               shareIsOpen={shareIsOpen}
               setShareIsOpen={setShareIsOpen}
+              handleImage={handleImage}
             />
           }
         />
