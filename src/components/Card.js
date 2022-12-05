@@ -6,6 +6,7 @@ import CardPreview from './CardPreview';
 import Design from './Design';
 import Fill from './Fill';
 import Share from './Share';
+import defaultImage from '../images/b8766cd53b5e1529712ed7e49365b7d4.jpg';
 
 const Card = (props) => {
   const [designIsOpen, setDesignIsOpen] = useState(false);
@@ -40,6 +41,7 @@ const Card = (props) => {
         <CardPreview
           handleReset={props.handleReset}
           dataCard={props.dataCard}
+          defaultImage={defaultImage}
         />
         {/*--form*/}
         <section className='main__cards--section'>
@@ -58,6 +60,7 @@ const Card = (props) => {
               fillIsOpen={fillIsOpen}
               handleOpenSection={handleOpenSection}
               handleImage={props.handleImage}
+              defaultImage={defaultImage}
             />
             {/*--share*/}
             <Share

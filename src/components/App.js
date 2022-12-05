@@ -1,14 +1,10 @@
 import { useState } from 'react';
-
 import '../styles/App.scss';
-
 import callToApi from '../services/api';
 import ls from '../services/localStorage';
 import imgHeader from '../images/logo-awesome-profile-cards0.svg';
 import Card from './Card';
 import Landing from './Landing';
-import { useRef } from 'react';
-
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -24,7 +20,7 @@ function App() {
     email: '',
     linkedin: '',
     github: '',
-    photo: '',
+    photo: '../images/mesa-de-trabajo1.png',
   };
   const lsInfo = ls.get('savedDataCard', defaultDataCard);
   const [dataCard, setDataCard] = useState({
@@ -55,9 +51,9 @@ function App() {
     callToApi(dataCard).then((response) => setApiCard(response));
   };
 
-  const handleImage = (image) => {
-    setDataCard({ ...dataCard, photo: image });
-    ls.set('savedDataCard', { ...dataCard, photo: image });
+  const handleImage = (imageData) => {
+    setDataCard({ ...dataCard, photo: imageData });
+    ls.set('savedDataCard', { ...dataCard, photo: imageData });
   };
 
   //Render helpers

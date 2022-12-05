@@ -64,6 +64,7 @@ function Fill(props) {
         <ImageReader
           handleImage={props.handleImage}
           dataCard={props.dataCard}
+          defaultImage={props.defaultImage}
         />
         <label className='fill__div__label' htmlFor='email' id='email'>
           Email

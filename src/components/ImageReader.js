@@ -1,6 +1,5 @@
 // Fichero src/components/ImageReader.js
 import { useRef } from 'react';
-
 /*
 El orden cronológico en el que se ejecuta este componente es:
 1. Se renderiza todo la primera vez
@@ -20,6 +19,10 @@ El orden cronológico en el que se ejecuta este componente es:
 */
 
 const ImageReader = (props) => {
+  const miniSelectedPhoto =
+    props.dataCard.photo !== undefined
+      ? props.dataCard.photo
+      : props.defaultImage;
   // 1. CREAR REFERENCIA AL INPUT FILE: para saber sobre que input estamos haciendo click. Creamos una referencia al input file de nuestro componente Fill para poder leer su contenido más tarde
   const inputFile = useRef();
 
@@ -39,7 +42,7 @@ const ImageReader = (props) => {
     if (selectedFile) {
       // Le decimos al lector de ficheros que lea el fichero seleccionado por la usuaria
       fileReader.readAsDataURL(selectedFile);
-      // Cuando esta acción termine, fileReader lanzará el evento 'load'.
+      // Cuando esta acción termine, fileReader lanzará el evento 'load' y guardará lo que haya leido del archivo que le pasemos en "filereader.result"
     }
   };
 
@@ -50,7 +53,7 @@ const ImageReader = (props) => {
     props.handleImage(fileReader.result);
   };
 
-  // 5. ESCUCHAR EL EVENTO LOAD SOBRE EL FILEREADER GENERADO: Escuchamos el evento load de fileReader y cuando lo lance lo manejamos con la función getImage
+  // 5. ESCUCHAR EL EVENTO LOAD SOBRE EL FILEREADER GENERADO: Escuchamos el evento load del fileReader que ha leido el fichero de la usuaria y cuando lo lance lo manejamos con la función getImage
   fileReader.addEventListener('load', getImage);
 
   return (
@@ -69,7 +72,7 @@ const ImageReader = (props) => {
       {/*--white box*/}
       <div
         className='fill__div__boxes__empty profile__preview js__profile-preview js-input-box'
-        style={{ backgroundImage: `url(${props.dataCard.photo})` }}
+        style={{ backgroundImage: `url(${miniSelectedPhoto})` }}
       ></div>
     </div>
   );
