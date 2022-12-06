@@ -1,5 +1,8 @@
 import Palettes from './Palettes';
 import '../styles/components/Design.scss';
+import PropTypes from 'prop-types';
+
+
 
 function Design(props) {
   return (
@@ -34,5 +37,12 @@ function Design(props) {
     </fieldset>
   );
 }
+
+Design.propTypes = {
+  dataCard: PropTypes.object.isRequired,
+  handleUpdateDataCard: PropTypes.func.isRequired,
+  designIsOpen: PropTypes.bool,
+  handleOpenSection: PropTypes.func.isRequired,
+};
 
 export default Design;

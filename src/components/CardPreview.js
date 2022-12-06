@@ -24,7 +24,7 @@ function CardPreview(props){
           </h2>
         </div>
         {/*--Container for profile picture*/}
-        <div className='article__photo js-article-photo js__profile-image profile__image'></div>
+        <div className='article__photo js-article-photo js__profile-image profile__image' style={{ backgroundImage: `url(${props.selectedImage})`, backgroundSize: "cover"}}></div>
         {/*--Navigation menu with icons*/}
         <nav className='article__nav'>
           <ul className='article__nav--list'>

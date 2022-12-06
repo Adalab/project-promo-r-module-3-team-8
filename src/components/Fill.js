@@ -1,6 +1,9 @@
 import '../styles/components/Fill.scss';
+import Image from './Image';
 
 function Fill(props) {
+
+
   return (
     <fieldset className='fill'>
       <div
@@ -61,7 +64,7 @@ function Fill(props) {
           Imagen de perfil
         </label>
         {/*--orange button*/}
-        <div className='fill__div__boxes'>
+{/*         <div className='fill__div__boxes'>
           <label className='fill__div__boxes__orange' htmlFor='img-selector'>
             Añadir imagen
           </label>
@@ -70,10 +73,11 @@ function Fill(props) {
             name='photo'
             id='img-selector'
             className='action__hiddenField  js__profile-upload-btn'
-          />
+          /> */}
           {/*--white box*/}
-          <div className='fill__div__boxes__empty profile__preview js__profile-preview js-input-box'></div>
-        </div>
+       {/*    <div className='fill__div__boxes__empty profile__preview js__profile-preview js-input-box'></div>
+        </div> */}
+        <Image handleImage={props.handleImage} dataCard={props.dataCard} selectedImage={props.selectedImage} />
 
         <label className='fill__div__label' htmlFor='email' id='email'>
           Email

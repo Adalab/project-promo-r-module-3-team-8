@@ -25,7 +25,7 @@ function App() {
     email: '',
     linkedin: '',
     github: '',
-    photo: '../images/minion.png',
+    photo: '',
   };
 
   const lsInfo = ls.get('savedDataCard', defaultDataCard);
@@ -38,7 +38,7 @@ function App() {
     email: lsInfo.email,
     linkedin: lsInfo.linkedin,
     github: lsInfo.github,
-    photo: '../images/minion.png',
+    photo: lsInfo.photo,
   });
 
   //Handler functions
@@ -56,6 +56,11 @@ function App() {
     ev.preventDefault();
     setCreateIsOpen(false);
     callToApi(dataCard).then((response) => setApiCard(response));
+  };
+
+  const handleImage = (imageData) => {
+    setDataCard({ ...dataCard, photo: imageData});
+    ls.set('savedDataCard', { ...dataCard, photo: imageData});
   };
 
   //Render helpers
@@ -132,6 +137,7 @@ function App() {
               renderCreateCard={renderCreateCard}
               shareIsOpen={shareIsOpen}
               setShareIsOpen={setShareIsOpen}
+              handleImage={handleImage}
             />
           }
         />
