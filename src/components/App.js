@@ -59,8 +59,8 @@ function App() {
   };
 
   const handleImage = (imageData) => {
-    setDataCard({ ...dataCard, photo: imageData});
-    ls.set('savedDataCard', { ...dataCard, photo: imageData});
+    setDataCard({ ...dataCard, photo: imageData });
+    ls.set('savedDataCard', { ...dataCard, photo: imageData });
   };
 
   //Render helpers
@@ -72,7 +72,11 @@ function App() {
           shareIsOpen ? 'collapsed' : ''
         }`}
       >
-        <div className="createbutton-on js-create-button">
+        <div
+          className={`js-create-button ${
+            isBtnDisabled ? 'createbutton-of' : 'createbutton-on'
+          }`}
+        >
           <i className="fa-solid fa-address-card icon-id "></i>
           <button
             type="submit"
