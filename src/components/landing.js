@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import '../styles/components/HeaderLanding.scss';
 import '../styles/components/MainLanding.scss';
+import PropTypes from 'prop-types';
 
 import Footer from './Footer';
 
@@ -47,6 +48,10 @@ const Landing = (props) => {
       <Footer />
     </>
   );
+};
+
+Landing.propTypes = {
+  imgHeader: PropTypes.string,
 };
 
 export default Landing;
