@@ -50,6 +50,7 @@ function App() {
   const handleReset = () => {
     setDataCard(defaultDataCard);
     ls.clear();
+    setCreateIsOpen(true);
   };
 
   const handleCreateButton = (ev) => {
@@ -57,8 +58,6 @@ function App() {
     setCreateIsOpen(false);
     callToApi(dataCard).then((response) => setApiCard(response.cardURL));
   };
-
-  console.log(apiCard);
 
   const handleImage = (imageData) => {
     setDataCard({ ...dataCard, photo: imageData });
