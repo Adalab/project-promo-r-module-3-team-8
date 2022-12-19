@@ -15,7 +15,7 @@ function App() {
   const [createIsOpen, setCreateIsOpen] = useState(true);
   const [shareIsOpen, setShareIsOpen] = useState(true);
 
-  const [apiCard, setApiCard] = useState({});
+  const [apiCard, setApiCard] = useState('');
 
   const defaultDataCard = {
     palette: '1',
@@ -55,8 +55,10 @@ function App() {
   const handleCreateButton = (ev) => {
     ev.preventDefault();
     setCreateIsOpen(false);
-    callToApi(dataCard).then((response) => setApiCard(response));
+    callToApi(dataCard).then((response) => setApiCard(response.cardURL));
   };
+
+  console.log(apiCard);
 
   const handleImage = (imageData) => {
     setDataCard({ ...dataCard, photo: imageData });
@@ -101,17 +103,17 @@ function App() {
             La tarjeta ha sido creada:
           </span>
           <a
-            href={apiCard.cardURL}
+            href={apiCard}
             className="shareresultbox__link js-share-url"
             target="_blank"
             rel="noreferrer"
           >
-            {apiCard.cardURL}
+            {apiCard}
           </a>
           <div className="shareresultbox__twitterbox">
             {/*--Reloads the pge because it is an empty link. it may be a button with inden with it, but it depends on the library. TO BE FOUND ON THE INTERNET. "How to share something Twitter"*/}
             <a
-              href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard.cardURL}`}
+              href={`https://twitter.com/intent/tweet?text=¡Os%20comparto%20la%20mejor%20tarjeta%20del%20mundo!&url=${apiCard}`}
               target="_blank"
               rel="noreferrer"
               className="shareresultbox__twitterbox--twitter js-link-twitter"
